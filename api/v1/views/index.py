@@ -21,7 +21,7 @@ def index():
 
 
 @app_views.route('/stats', methods=['GET'])
-def stats():
+def status():
     """an endpoint that retrieves
        the number of each objects
     """
