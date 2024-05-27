@@ -15,13 +15,13 @@ from models.user import User
 
 
 @app_views.route('/status', methods=['GET'])
-def index():
+def status():
     """handles the /status route"""
     return make_response(jsonify({"status": 'OK'}), 200)
 
 
 @app_views.route('/stats', methods=['GET'])
-def status():
+def stats():
     """an endpoint that retrieves
        the number of each objects
     """
