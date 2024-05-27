@@ -64,7 +64,7 @@ def add_review(place_id):
     if 'text' not in body:
         abort(400, "Missing text")
     review = Review(**body)
-    setarr(review, 'place_id', place_id)
+    setattr(review, 'place_id', place_id)
     storage.new(review)
     storage.save()
     return make_response(jsonify(review.to_dict), 201)

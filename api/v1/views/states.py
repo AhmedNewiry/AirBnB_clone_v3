@@ -63,6 +63,6 @@ def update_state(state_id):
     ignored_values = ['id', 'created_at', 'updated_at']
     for key, value in body.items():
         if key not in ignored_values:
-            setarr(state, key, value)
+            setattr(state, key, value)
     state.save()
     return make_response(jsonify(state.to_dict), 200)

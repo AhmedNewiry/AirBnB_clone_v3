@@ -56,7 +56,7 @@ def add_city(state_id):
     if not state:
         abort(400)
     new_city = City(**city)
-    setarr(new_city, 'state_id', state_id)
+    setattr(new_city, 'state_id', state_id)
     storage.new(new_city)
     storage.save()
     return make_response(jsonify(new_city.to_dict()), 201)
@@ -74,6 +74,6 @@ def update_city(city_id):
     ignored_values = ['id', 'created_at', 'updated_at']
     for key, value in body.items():
         if key not in ignored_values:
-            setarr(city, key, value)
+            setattr(city, key, value)
     city.save()
     return make_response(jsonify(city.to_dict), 200)
