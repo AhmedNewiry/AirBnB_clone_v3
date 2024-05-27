@@ -9,26 +9,25 @@ from models.city import City
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
 def get_state_cities(state_id):
-    """retrieves the list of all City objects of a State"""
-    state = storage.get('State', state_id)
+    """Retrieves the list of all City objects of a State"""
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
-    cities = storage.all('City')
-    req_cities = [city.to_dict() for city in cities.values() if city.state_id == state_id]
-    return make_response(jsonify(req_cities), 200)
+    cities = [city.to_dict() for city in state.cities]
+    return jsonify(cities)
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
     """Retrieves a City object"""
-    city = storage.get('City', city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
-    return make_response(jsonify(city.to_dict()), 200)
+    return jsonify(city.to_dict())
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
 def delete_city(city_id):
     """Deletes a City object"""
-    city = storage.get('City', city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     storage.delete(city)
@@ -37,15 +36,15 @@ def delete_city(city_id):
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
 def add_city(state_id):
-    """adds a new object to the storage"""
-    city_data = request.get_json()
-    if not city_data:
-        abort(400, 'Not a JSON')
-    if 'name' not in city_data:
-        abort(400, 'Missing name')
-    state = storage.get('State', state_id)
+    """Adds a new City object to the storage"""
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
+    city_data = request.get_json()
+    if not city_data:
+        abort(400, description="Not a JSON")
+    if 'name' not in city_data:
+        abort(400, description="Missing name")
     city_data['state_id'] = state_id
     new_city = City(**city_data)
     storage.new(new_city)
@@ -54,16 +53,16 @@ def add_city(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
-    """update a city object"""
-    city = storage.get('City', city_id)
+    """Updates a City object"""
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     body = request.get_json()
     if not body:
-        abort(400, 'Not a JSON')
-    ignored_values = ['id', 'created_at', 'updated_at']
+        abort(400, description="Not a JSON")
+    ignored_values = {'id', 'state_id', 'created_at', 'updated_at'}
     for key, value in body.items():
         if key not in ignored_values:
             setattr(city, key, value)
-    city.save()
+    storage.save()
     return make_response(jsonify(city.to_dict()), 200)
