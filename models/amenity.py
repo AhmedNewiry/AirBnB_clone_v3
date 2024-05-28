@@ -2,10 +2,10 @@
 #!/usr/bin/python3
 """A module containing the routes of amenities view"""
 
-from flask import jsonify, request, abort, make_response
 from api.v1.views import app_views
 from models import storage
 from models.amenity import Amenity
+from flask import jsonify, request, abort, make_response
 
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
