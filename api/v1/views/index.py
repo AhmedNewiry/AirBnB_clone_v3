@@ -2,7 +2,7 @@
 """ a module containing mutual views routes"""
 
 
-from api.v1.views import app_views
+
 from flask import jsonify, make_response
 from models import storage
 from models import storage
