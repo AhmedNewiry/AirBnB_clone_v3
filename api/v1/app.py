@@ -2,12 +2,12 @@
 """ a module for flask application that represents an 
     entry point for that application
 """
-
 import os
 from flask import Flask, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 from flask_cors import CORS
+
 
 app = Flask(__name__)
 cors = CORS(app, resources={r'/*': {"origins": '0.0.0.0'}})
