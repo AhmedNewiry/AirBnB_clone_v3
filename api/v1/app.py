@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" a module for flask application"""
+""" a module for flask application that represents an 
+    entry point for that application
+"""
 
 import os
 from flask import Flask, make_response, jsonify
