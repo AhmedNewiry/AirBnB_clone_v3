@@ -5,13 +5,14 @@ from api.v1.views import app_views
 from models import storage
 from flask import make_response, request, abort, jsonify
 from models.city import City
+from models.state import State
 
 
 @app_views.route('/states/<state_id>/cities',
                  methods=['GET'], strict_slashes=False)
 def get_state_cities(state_id):
     """Retrieves the list of all City objects of a State"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     cities = [city.to_dict() for city in state.cities]
