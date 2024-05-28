@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """a module containing the routes of cities view"""
 
+from api.v1.views import app_views
 from models import storage
 from flask import make_response, request, abort, jsonify
 from models.city import City
